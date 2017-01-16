@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9545A9C41E2CC544002D44CE /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9545A9C31E2CC544002D44CE /* InputViewController.swift */; };
 		959D04F31E27873F003DE524 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959D04F21E27873F003DE524 /* AppDelegate.swift */; };
 		959D04F51E27873F003DE524 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959D04F41E27873F003DE524 /* ViewController.swift */; };
 		959D04F81E27873F003DE524 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 959D04F61E27873F003DE524 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9545A9C31E2CC544002D44CE /* InputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 		959D04EF1E27873F003DE524 /* taskapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = taskapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		959D04F21E27873F003DE524 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		959D04F41E27873F003DE524 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 				959D04F21E27873F003DE524 /* AppDelegate.swift */,
 				959D04F41E27873F003DE524 /* ViewController.swift */,
 				959D04F61E27873F003DE524 /* Main.storyboard */,
+				9545A9C31E2CC544002D44CE /* InputViewController.swift */,
 				959D04F91E27873F003DE524 /* Assets.xcassets */,
 				959D04FB1E27873F003DE524 /* LaunchScreen.storyboard */,
 				959D04FE1E27873F003DE524 /* Info.plist */,
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9545A9C41E2CC544002D44CE /* InputViewController.swift in Sources */,
 				959D04F51E27873F003DE524 /* ViewController.swift in Sources */,
 				959D04F31E27873F003DE524 /* AppDelegate.swift in Sources */,
 			);
@@ -300,6 +304,7 @@
 				959D05031E27873F003DE524 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

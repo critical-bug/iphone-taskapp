@@ -22,12 +22,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        <#code#>
-    }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        <#code#>
-    }
     // MARK: UITableViewDataSourceプロトコルのメソッド
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
@@ -40,6 +34,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     // MARK: UITableViewDelegateプロトコルのメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "cellSegue", sender: nil)
     }
     // MARK: UITableViewDelegateプロトコルのメソッド
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
