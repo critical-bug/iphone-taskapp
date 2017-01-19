@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 
 class InputViewController: UIViewController {
 
@@ -42,10 +43,23 @@ class InputViewController: UIViewController {
             self.task.date = datePicker.date as NSDate
             self.realm.add(task, update: true)
         }
+        setNotification(task)
         super.viewWillDisappear(animated)
     }
 
     func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    func setNotification(_ task: Task) {
+        let nc = UNMutableNotificationContent()
+        nc.title = task.title
+        nc.body = task.content
+        nc.sound = .default()
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: NSCalendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: task.date as Date),
+                                                         repeats: false)
+        let request = UNNotificationRequest.init(identifier: String(task.id), content: nc, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) {(e) in print(e)}
     }
 }
