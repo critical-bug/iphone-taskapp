@@ -13,26 +13,27 @@ class InputViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
+    
+    var task: Task!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        // 背景をタップしたらdismissKeyboardメソッドを呼ぶように設定する
+        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tapGesture)
+        
+        titleTextField.text = task.title
+        contentTextView.text = task.contents
+        datePicker.date = task.date as Date
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func dismissKeyboard() {
+        
     }
-    */
-
 }
