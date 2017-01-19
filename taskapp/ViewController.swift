@@ -60,7 +60,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     // MARK: UITableViewDelegateプロトコルのメソッド
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        realm.delete(taskArray[indexPath.row])
+        print(editingStyle);
+        if editingStyle == UITableViewCellEditingStyle.delete {
+        try! realm.write {
+            self.realm.delete(self.taskArray[indexPath.row])
+            tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
+        }
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
