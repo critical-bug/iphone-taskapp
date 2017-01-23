@@ -37,6 +37,7 @@ class InputViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        // 前の画面に戻るときに書き込む
         try! realm.write {
             self.task.title = titleTextField.text!
             self.task.content = contentTextView.text
@@ -56,10 +57,18 @@ class InputViewController: UIViewController {
         nc.title = task.title
         nc.body = task.content
         nc.sound = .default()
-        let trigger = UNCalendarNotificationTrigger(
-            dateMatching: NSCalendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: task.date as Date),
-                                                         repeats: false)
+        let date = NSCalendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: task.date as Date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
         let request = UNNotificationRequest.init(identifier: String(task.id), content: nc, trigger: trigger)
-        UNUserNotificationCenter.current().add(request) {(e) in print(e)}
+        let center = UNUserNotificationCenter.current()
+        // 指定した identifier の通知が存在すれば更新し無ければ新規
+        center.add(request) {(e) in if e != nil { print(e!) } }
+        center.getPendingNotificationRequests { (requests: [UNNotificationRequest]) in
+            for request in requests {
+                print("/----")
+                print(request)
+                print("----/")
+            }
+        }
     }
 }

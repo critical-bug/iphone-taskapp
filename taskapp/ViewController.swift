@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -54,18 +55,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         performSegue(withIdentifier: "cellSegue", sender: nil)
     }
     // MARK: UITableViewDelegateプロトコルのメソッド
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    func tableView(_ tableView: UITableView,
+                   editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         // セルが削除が可能なことを伝える
         return .delete
     }
     // MARK: UITableViewDelegateプロトコルのメソッド
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCellEditingStyle,
+                   forRowAt indexPath: IndexPath) {
         print(editingStyle);
         if editingStyle == UITableViewCellEditingStyle.delete {
-        try! realm.write {
-            self.realm.delete(self.taskArray[indexPath.row])
-            tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
-        }
+            let task = self.taskArray[indexPath.row]
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [String(task.id)])
+
+            try! realm.write {
+                self.realm.delete(task)
+                tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
+            }
+            
+            center.getPendingNotificationRequests(completionHandler: { (requests: [UNNotificationRequest]) in
+                for req in requests {
+                    print("/----")
+                    print(req)
+                    print("----/")
+                }
+            })
         }
     }
 
