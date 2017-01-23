@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -23,6 +24,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         unCenter.delegate = self
 
+        let migrationBlock: MigrationBlock = { migration, oldSchemaVersion in
+            if oldSchemaVersion < 1 {
+                migration.enumerateObjects(ofType: Task.className()) { oldObject, newObject in
+                    if oldSchemaVersion < 1 {
+                        newObject?["category"] = ""
+                    }
+                }
+            }
+            print("Migration complete.")
+        }
+        Realm.Configuration.defaultConfiguration = Realm.Configuration(schemaVersion: 1, migrationBlock: migrationBlock)
+        // print out all migrated objects in the default realm
+        // migration is performed implicitly on Realm access
+        print("Migrated objects in the default Realm: \(try! Realm().objects(Task.self))")
         return true
     }
 

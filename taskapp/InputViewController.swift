@@ -15,7 +15,8 @@ class InputViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
-    
+    @IBOutlet weak var categoryTextField: UITextField!
+
     var task: Task!
     let realm = try! Realm()
     
@@ -28,6 +29,7 @@ class InputViewController: UIViewController {
         
         titleTextField.text = task.title
         contentTextView.text = task.content
+        categoryTextField.text = task.category
         datePicker.date = task.date as Date
     }
 
@@ -41,6 +43,7 @@ class InputViewController: UIViewController {
         try! realm.write {
             self.task.title = titleTextField.text!
             self.task.content = contentTextView.text
+            self.task.category = categoryTextField.text!
             self.task.date = datePicker.date as NSDate
             self.realm.add(task, update: true)
         }
@@ -61,7 +64,7 @@ class InputViewController: UIViewController {
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
         let request = UNNotificationRequest.init(identifier: String(task.id), content: nc, trigger: trigger)
         let center = UNUserNotificationCenter.current()
-        // 指定した identifier の通知が存在すれば更新し無ければ新規
+        // 指定した identifier の通知が存在すれば更新し、無ければ新規
         center.add(request) {(e) in if e != nil { print(e!) } }
         center.getPendingNotificationRequests { (requests: [UNNotificationRequest]) in
             for request in requests {

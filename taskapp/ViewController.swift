@@ -13,9 +13,6 @@ import UserNotifications
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    let realm = try! Realm()
-
-    let taskArray = try! Realm().objects(Task.self).sorted(byProperty: "date", ascending: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,12 +32,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: UITableViewDataSourceプロトコルのメソッド
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let realm = try! Realm()
+        let taskArray = realm.objects(Task.self).sorted(byProperty: "date", ascending: false)
         return taskArray.count
     }
     // MARK: UITableViewDataSourceプロトコルのメソッド
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // 再利用可能な cell を得る
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let realm = try! Realm()
+        let taskArray = realm.objects(Task.self).sorted(byProperty: "date", ascending: false)
         let task = taskArray[indexPath.row]
         cell.textLabel?.text = task.title
         
@@ -64,14 +65,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCellEditingStyle,
                    forRowAt indexPath: IndexPath) {
-        print(editingStyle);
+        print(editingStyle)
+        let realm = try! Realm()
         if editingStyle == UITableViewCellEditingStyle.delete {
-            let task = self.taskArray[indexPath.row]
+            let task = realm.objects(Task.self).sorted(byProperty: "date", ascending: false)[indexPath.row]
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: [String(task.id)])
 
             try! realm.write {
-                self.realm.delete(task)
+                realm.delete(task)
                 tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
             }
             
@@ -87,6 +89,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let inputViewController = segue.destination as! InputViewController
+        let realm = try! Realm()
+        let taskArray = realm.objects(Task.self).sorted(byProperty: "date", ascending: false)
         if segue.identifier == "cellSegue" {
             try! realm.write {
                 let indexPath = self.tableView.indexPathForSelectedRow
